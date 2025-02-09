@@ -1,0 +1,60 @@
+class DiveRegulation
+{
+    // Properties \\
+    // General for all dives
+    bool atLeastTwoDivers;
+    // Other regulations if any country wants to add stuff
+    bool[] regulations;
+    // If all regulations are passed (fast check)
+    bool passed;
+
+
+    // Constructor \\
+    public DiveRegulation(bool atLeastTwoDivers = false, bool[] regulations = null)
+    {
+        SetAtLeastTwoDivers(atLeastTwoDivers);
+        SetRegulations(regulations);
+        SetPassed();
+    }
+
+    // Setters \\
+    public void SetAtLeastTwoDivers(bool atLeastTwoDivers)
+    {
+        this.atLeastTwoDivers = atLeastTwoDivers;
+    }
+    public void SetRegulations(bool[] regulations)
+    {
+        this.regulations = regulations;
+    }
+    private void SetPassed()
+    {
+        passed = true;
+        if (atLeastTwoDivers == false)
+        {
+            passed = false;
+            return;
+        }
+        foreach (bool condition in regulations)
+        {
+            if (condition == false)
+            {
+                passed = false;
+                return;
+            }
+        }
+    }
+
+    // Getters \\
+    public bool GetAtLeastTwoDivers()
+    {
+        return atLeastTwoDivers;
+    }
+    public bool[] GetRegulations()
+    {
+        return regulations;
+    }
+    public bool GetPassed()
+    {
+        return passed;
+    }
+}

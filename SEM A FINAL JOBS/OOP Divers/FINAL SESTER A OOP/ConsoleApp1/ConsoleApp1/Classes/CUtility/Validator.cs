@@ -3,6 +3,8 @@
 /// </summary>
 using System.Text.RegularExpressions;
 
+
+
 class Validator
 {
     // WAYPOINT: Person Validators \\
@@ -188,8 +190,6 @@ class Validator
     }
 
     // Valid Name Getter \\
-
-
     public static string GetProperEnglishName(string str)
     {
         bool errorFirstTime = true;
@@ -217,5 +217,26 @@ class Validator
         return str;
     }
 
+    // Valid Country Name / Symbol Check \\
+    // Using an external API to check if the country exists
+    public async static Task<bool> CheckIfCountryExists(string country)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            Uri endPoint = new Uri("https://www.ipqualityscore.com/api/raw/country/list");
+            HttpResponseMessage response = await client.GetAsync(endPoint);
+            string result = response.Content.ReadAsStringAsync().Result;
+            string[] listCount = result.Split(':');
+
+            foreach (var item in listCount)
+            {
+                if (item.Trim().ToLower() == country.ToLower())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
 }

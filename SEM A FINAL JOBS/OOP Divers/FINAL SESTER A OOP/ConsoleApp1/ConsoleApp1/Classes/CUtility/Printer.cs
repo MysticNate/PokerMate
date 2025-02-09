@@ -1,3 +1,6 @@
+
+
+
 /// <summary>
 /// This class will help print stuff that are being repeated / long so that we will have a cleaner code across our system
 /// </summary>
@@ -227,6 +230,13 @@ class Printer
         Color.ResetColor();
         Console.Write($"Enter a type (0 - 9) for {itemName}: ");
     }
-    
+
+    internal static void PrintAskForNewCountry(string name)
+    {
+        Color.Red();
+        Console.WriteLine($"Error:\nNo such country / country code '({name})'\nSee 'www.ipqualityscore.com/documentation/countries/overview' for reference\n");
+        Color.ResetColor();
+        Console.Write($"Enter a new country / country code: ");
+    }
 
 }

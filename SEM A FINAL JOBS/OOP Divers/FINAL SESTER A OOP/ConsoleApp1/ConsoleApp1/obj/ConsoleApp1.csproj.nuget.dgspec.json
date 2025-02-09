@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {}
+    "c:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {
+    "c:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectUniqueName": "c:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
         "projectName": "ConsoleApp1",
-        "projectPath": "C:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectPath": "c:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\ConsoleApp1.csproj",
         "packagesPath": "C:\\Users\\Giora\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\obj\\",
+        "outputPath": "c:\\Users\\Giora\\OneDrive\\MyLife\\Giora\\לימודים\\הנדסאים\\שנה ב\\A FINAL PROJECT\\PokerMate\\SEM A FINAL JOBS\\OOP Divers\\FINAL SESTER A OOP\\ConsoleApp1\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
