@@ -57,8 +57,7 @@ Diver diver5 = new Diver("327252177", "Michel", "Davis", 25, 7, 1975, 50);
 
 
 // A little bit of fake booting
-// TODO: ENABLE ME
-// Printer.LoadBar();
+Printer.LoadBar();
 
 // Menu \\
 bool loggedIn = false;

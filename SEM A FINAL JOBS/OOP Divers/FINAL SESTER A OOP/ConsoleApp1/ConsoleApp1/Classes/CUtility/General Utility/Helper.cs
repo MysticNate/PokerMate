@@ -219,6 +219,13 @@ class Helper
             diverGear[diver] = ChooseGearForDiver(diver, chosenClub);
         }
 
+        // All divers dive
+        foreach (Diver diver in divers)
+        {
+            diver.Dive();
+        }
+
+
         // Step 5: Loading...
         Color.Black();
         Console.WriteLine("Loading...");
@@ -226,6 +233,13 @@ class Helper
         Color.Blue();
         Console.WriteLine("Press any key to complete dive");
         Console.ReadKey();
+
+        // All divers get out from the water
+        foreach (Diver diver in divers)
+        {
+            diver.GetOutFromWater();
+        }
+
         Color.Green();
         Console.WriteLine("Dive completed!");
 
@@ -242,6 +256,7 @@ class Helper
 
         // Step 7: Club signs
         var clubSignature = chosenClub.GetContactPerson().Sign();
+
 
         // Create DivingInfo and add to club logs
         Dictionary<Item, int> combinedItems = new Dictionary<Item, int>();

@@ -3,7 +3,6 @@ class DiverInstructor : Diver
     // Properties \\
     // This will be a dictionary of all the clubs the instructor is working at, If the end date is null, the instructor is still working there, else, he worked there before.
     Dictionary<DivingClub, WorkStamp> workingClubs = new Dictionary<DivingClub, WorkStamp>();
-    // new Dictionary<DivingClub, WorkStamp>();
 
     // Constructor \\
     public DiverInstructor(string id, string fName = "undefined", string lName = "undefined", int day = 1, int month = 1, int year = 1900, int divesDone = -1, bool currentlyDiving = false, Dictionary<Item, int> items = null, DiveRankGiven rankCurrent = null, DiveRankGiven[] rankHistory = null, Dictionary<DivingClub, WorkStamp> workingClubs = null) : base(id, fName, lName, day, month, year, divesDone, currentlyDiving, items, rankCurrent, rankHistory)
