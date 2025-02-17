@@ -16,6 +16,7 @@ class Address
         SetStateOrRegion(stateOrRegion);
         SetZipCode(zipCode);
         SetCountry(country);
+        DB.AddSavedAddress(this);
     }
     // Setters \\
     public void SetStreetName(string streetName)

@@ -13,6 +13,7 @@ class DiveRank
         SetName(name);
         SetDescription(description);
         SetDivesNeeded(divesNeeded);
+        DB.AddSavedDiveRank(this);
     }
 
     // Setters \\ 
@@ -49,6 +50,13 @@ class DiveRank
     public int GetDivesNeeded()
     {
         return divesNeeded;
-    }    
+    }
+
+    // Other \\
+    public override string ToString()
+    {
+        return $"ID: {id}" + $"Name: {name}" + $"Description: {description}"  + $"Dives Needed: {divesNeeded}";
+    }
+
 
 }

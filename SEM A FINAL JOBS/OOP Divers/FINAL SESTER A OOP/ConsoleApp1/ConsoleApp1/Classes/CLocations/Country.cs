@@ -10,16 +10,12 @@ class Country
         SetName(name);
         SetDivingRegulations(divingRegulations);
         SetLanguages(languages);
+        DB.AddSavedCountry(this);
     }
 
     // Setters \\ 
-    public async void SetName(string name)
+    public void SetName(string name)
     {
-        while (await Validator.CheckIfCountryExists(name) == false)
-        {
-            Printer.PrintAskForNewCountry(name);
-            name = Console.ReadLine();
-        }
         this.name = name;
     }
 
@@ -38,7 +34,7 @@ class Country
     {
         return name;
     }
-    public string GetDivingRegulations()
+    public DiveRegulation GetDivingRegulations()
     {
         return divingRegulations;
     }

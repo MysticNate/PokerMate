@@ -1,60 +1,163 @@
-class Diver : Person
+class Diver : Person, IDiveable, IBorrow
 {
     // Properties \\
-    string diverId;
     int divesDone;
+    bool currentlyDiving; // If diver is actively diving right now 
+    Dictionary<Item, int> items;
     DiveRankGiven rankCurrent;
     DiveRankGiven[] rankHistory;
 
     // Constructor \\
     // A person can't be more than MAX_AGE (140) years old.
-    public Diver(string id = "0", string fName = "undefined", string lName = "undefined", DateOnly dateOfBirth) : base()
+    public Diver(string id, string fName = "undefined", string lName = "undefined", int day = 1, int month = 1, int year = 1900, int divesDone = -1, bool currentlyDiving = false, Dictionary<Item, int> items = null, DiveRankGiven rankCurrent = null, DiveRankGiven[] rankHistory = null) : base(id, fName, lName, day, month, year)
     {
-
+        SetDivesDone(divesDone);
+        SetCurrentlyDiving(currentlyDiving);
+        SetItems(items);
+        SetRankCurrent(rankCurrent);
+        SetRankHistory(rankHistory);
     }
 
     // Setters \\ 
-    public void SetDiverId(string id)
-    {
-        while (Validator.IsIDLegal(id) == false)
-        {
-            Printer.PrintAskForNewID(id);
-            id = Console.ReadLine(); ;
-        }
-        this.id = id;
-    }
     public void SetDivesDone(int divesDone)
     {
         this.divesDone = divesDone;
     }
-    public void SetLName(string lName)
+    public void SetCurrentlyDiving(bool currentlyDiving)
     {
-        lName = Validator.GetProperEnglishName(lName);
-        fName = Helper.TrimAndCapitalize(fName);
-        this.lName = lName;
+        this.currentlyDiving = currentlyDiving;
     }
-    public void SetBirthDay(int day, int month, int year)
+    public void SetItems(Dictionary<Item, int> items)
     {
-        ValidateYear(year);             // Will check if year is valid (not 140 years back & not in the future)
-        ValidateMonth(year, month);     // WIll check if we are past this month or not (after validating the year given)
-        ValidateDay(year, month, day);  // Will check if the date exists in that specific year & month && that we did not pass this day
+        if (items != null)
+        {
+            this.items = items;
+        }
+        else
+        {
+            this.items = new Dictionary<Item, int>();
+        }
+    }
+    // This function will update the rank history as well as the current rank
+    public void SetRankCurrent(DiveRankGiven rankCurrent)
+    {
+        // Save the history of the diver's ranks
+        if (rankHistory == null)
+        {
+            this.rankHistory = new DiveRankGiven[0];
+        }
+        rankHistory = Helper.AddOneToArray(rankHistory);
+        rankHistory[rankHistory.Length - 1] = rankCurrent;
+        // Update current rank
+        this.rankCurrent = rankCurrent;
+    }
+    // For if you want to change 'rankHistory' completely
+    public void SetRankHistory(DiveRankGiven[] rankHistory)
+    {
+        if (rankHistory != null)
+        {
+            this.rankHistory = rankHistory;
+        }
+        else
+        {
+            this.rankHistory = new DiveRankGiven[0];
+        }
     }
 
     // Getters \\
-    public string GetId()
+    public int GetDivesDone()
     {
-        return id;
+        return divesDone;
     }
-    public string GetFName()
+    public bool GetCurrentlyDiving()
     {
-        return fName;
+        return currentlyDiving;
     }
-    public string GetLName()
+    public Dictionary<Item, int> GetItems()
     {
-        return lName;
+        return items;
     }
-    public DateOnly GetDateOfBirth()
+    public DiveRankGiven GetRankCurrent()
     {
-        return dateOfBirth;
+        return rankCurrent;
     }
+    public DiveRankGiven[] GetRankHistory()
+    {
+        return rankHistory;
+    }
+
+
+    // Other \\
+    public void Dive()
+    {
+        currentlyDiving = true;
+        divesDone++;
+    }
+    public void GetOutFromWater()
+    {
+        currentlyDiving = false;
+    }
+
+    // Items \\
+    public void BorrowItem(Diver diver, Item item, DivingClub divingClub)
+    {
+        // Check if the item is available
+        if (divingClub.GetItems().ContainsKey(item))
+        {
+            // Check if the item is available
+            if (divingClub.GetItems()[item] > 0)
+            {
+                // Check if the diver has the item
+                if (diver.GetItems().ContainsKey(item))
+                {
+                    diver.GetItems()[item]++;
+                }
+                else
+                {
+                    diver.GetItems().Add(item, 1);
+                }
+                divingClub.GetItems()[item]--;
+            }
+            else
+            {
+                Console.WriteLine("The item is not available at the moment.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("The item is not available at the moment.");
+        }
+    }
+    public void ReturnItem(Diver diver, Item item, DivingClub divingClub)
+    {
+        // Check if the diver has the item
+        if (diver.GetItems().ContainsKey(item))
+        {
+            // Check if the diver has the item
+            if (diver.GetItems()[item] > 0)
+            {
+                // Check if the item is available
+                if (divingClub.GetItems().ContainsKey(item))
+                {
+                    divingClub.GetItems()[item]++;
+                }
+                else
+                {
+                    divingClub.GetItems().Add(item, 1);
+                }
+                diver.GetItems()[item]--;
+            }
+            else
+            {
+                Console.WriteLine("The diver doesn't have the item.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("The diver doesn't have the item.");
+        }
+
+    }
+
+
 }

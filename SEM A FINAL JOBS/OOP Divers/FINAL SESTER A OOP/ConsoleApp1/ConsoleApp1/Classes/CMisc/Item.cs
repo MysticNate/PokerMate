@@ -14,18 +14,20 @@ enum EType
 }
 class Item
 {
-
     // Properties \\
     string id;
     string name;
+    string description;
     EType type;
 
     // Constructor \\
-    public Item(string id = "0", string name = "undefined", int type = 0)
+    public Item(string id = "0", string name = "undefined", string description = "undefined", int type = 0)
     {
         SetId(id);
         SetName(name);
+        SetDescription(description);
         SetType(type);
+        DB.AddSavedItem(this);
     }
 
     // Setters \\ 
@@ -36,6 +38,10 @@ class Item
     public void SetName(string name)
     {
         this.name = name;
+    }
+    public void SetDescription(string description)
+    {
+        this.description = description;
     }
     public void SetType(int type)
     {
@@ -55,6 +61,10 @@ class Item
     public string GetName()
     {
         return name;
+    }
+    public string GetDescription()
+    {
+        return description;
     }
     public EType GetItemType()
     {

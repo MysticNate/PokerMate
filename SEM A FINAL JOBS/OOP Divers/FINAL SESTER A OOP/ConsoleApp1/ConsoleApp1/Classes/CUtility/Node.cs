@@ -2,7 +2,7 @@ class Node<T>
 {
     // Attributes \\ 
     T value;
-    Node<T>? next; // ? = nullable
+    Node<T> next; // ? = nullable
 
     // Constructors \\
     public Node(T value)

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 class Validator
 {
-    // WAYPOINT: Person Validators \\
+    // Person Validators \\
     // Method to check if ID (Israeli) is legal or not.
     // Source = https://www.upnext.co.il/articles/israeli-id-numer-validation/
     public static bool IsIDLegal(string id)
@@ -188,12 +188,25 @@ class Validator
         }
         return goodInput;
     }
+    public static double GetValid01Double(string input)
+    {
+        while (true)
+        {
+            double value = GetProperDouble(input);
+            if (value >= 0 && value <= 1)
+            {
+                return value;
+            }
+            Printer.Print01Error();
+            input = Console.ReadLine();
+        }
+    }
 
     // Valid Name Getter \\
     public static string GetProperEnglishName(string str)
     {
         bool errorFirstTime = true;
-        Regex nameRegex = new Regex("^[a-z]{2,}$"); // Only lowercase letters, at least 2 characters
+        Regex nameRegex = new Regex("^[a-z ]{2,}$"); // Only lowercase letters, at least 2 characters
 
         while (!nameRegex.IsMatch(str.ToLower().Trim()))
         {
@@ -207,7 +220,7 @@ class Validator
                 Printer.PrintLengthNameError(str);
             else
             {
-                char invalidChar = str.FirstOrDefault(c => !char.IsLetter(c) || !char.IsLower(c));
+                char invalidChar = str.FirstOrDefault(c => !char.IsLetter(c));
                 Printer.PrintEnglishNameError(str, invalidChar);
             }
 
@@ -217,26 +230,116 @@ class Validator
         return str;
     }
 
-    // Valid Country Name / Symbol Check \\
-    // Using an external API to check if the country exists
-    public async static Task<bool> CheckIfCountryExists(string country)
+    // Valid Phone Number Getter \\
+    public static string GetProperEmail(string str)
     {
-        using (HttpClient client = new HttpClient())
-        {
-            Uri endPoint = new Uri("https://www.ipqualityscore.com/api/raw/country/list");
-            HttpResponseMessage response = await client.GetAsync(endPoint);
-            string result = response.Content.ReadAsStringAsync().Result;
-            string[] listCount = result.Split(':');
+        bool errorFirstTime = true;
+        Regex emailRegex = new Regex(@"^[\d\w\-\.]+@[aA-zZ]{2,15}(\.[aA-zZ]+|\.[aA-zZ]+\.[aA-zZ]+)$"); // Email regex from Secured Development 
 
-            foreach (var item in listCount)
-            {
-                if (item.Trim().ToLower() == country.ToLower())
-                {
-                    return true;
-                }
-            }
-            return false;
+        while (!emailRegex.IsMatch(str.ToLower().Trim()))
+        {
+            str = str.ToLower().Trim();
+
+            if (errorFirstTime == false)
+                Printer.ClearConsoleLines(0, 4);
+            errorFirstTime = false;
+
+            Printer.PrintRegExError(str, "email", emailRegex.ToString());
+
+
+            str = Console.ReadLine();
+        }
+
+        return str;
+    }
+
+    public static string GetProperPassword(string str)
+    {
+        bool errorFirstTime = true;
+        Regex passwordRegex = new Regex(@"^[a-z0-9]{8}$"); // Email regex from Secured Development 
+
+        while (!passwordRegex.IsMatch(str.ToLower().Trim()))
+        {
+            str = str.ToLower().Trim();
+
+            if (errorFirstTime == false)
+                Printer.ClearConsoleLines(0, 4);
+            errorFirstTime = false;
+
+            Printer.PrintRegExError(str, "password", passwordRegex.ToString());
+
+
+            str = Console.ReadLine();
+        }
+
+        return str;
+    }
+
+    // Valid Website Getter \\
+    public static string GetProperWWW(string str)
+    {
+        bool errorFirstTime = true;
+        Regex wwwRegex = new Regex(@"^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$"); // Website regex from https://stackoverflow.com/questions/42618872/regex-for-website-or-url-validation 
+
+        while (!wwwRegex.IsMatch(str.ToLower().Trim()))
+        {
+            str = str.ToLower().Trim();
+
+            if (errorFirstTime == false)
+                Printer.ClearConsoleLines(0, 4);
+            errorFirstTime = false;
+
+            Printer.PrintRegExError(str, "website", wwwRegex.ToString());
+
+
+            str = Console.ReadLine();
+        }
+
+        return str;
+    }
+
+
+    // // Valid Country Name / Symbol Check \\
+    // // Using an external API to check if the country exists
+    // public async static Task<bool> CheckIfCountryExists(string country)
+    // {
+    //     using (HttpClient client = new HttpClient())
+    //     {
+    //         Uri endPoint = new Uri("https://www.ipqualityscore.com/api/raw/country/list");
+    //         HttpResponseMessage response = await client.GetAsync(endPoint);
+    //         string result = response.Content.ReadAsStringAsync().Result;
+    //         result = result.Replace("\n", " ");
+    //         string[] listCount = result.Split(':');
+
+    //         foreach (var item in listCount)
+    //         {
+    //             if (item.Trim().ToLower() == country.ToLower())
+    //             {
+    //                 return true;
+    //             }
+    //         }
+    //         return false;
+    //    }
+    // }
+
+    public static string ValidateYesOrNo(string str, int minLength, int maxLength)
+    {
+        str = Helper.TrimAndCapitalize(str);
+
+        // Print error
+        Printer.PrintLengthErrorYesOrNo(str, minLength, maxLength);
+
+        string newStr = Console.ReadLine();
+
+        newStr = Helper.TrimAndCapitalize(newStr);
+
+        if (newStr.Length >= minLength && newStr.Length <= maxLength) return newStr;
+        else
+        {
+            Printer.ClearConsoleLines(0, 6);
+            return ValidateYesOrNo(newStr, minLength, maxLength);
         }
     }
+
 
 }

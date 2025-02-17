@@ -1,4 +1,4 @@
-class DivingSite : Address
+class DivingSite
 {
     // Properties \\
     string name;
@@ -7,9 +7,10 @@ class DivingSite : Address
     double width;
     double depth;
     bool waterSalty;
+    Address address;
 
     // Constructor \\
-    public DivingSite(string streetName = "undefined", string houseNumber = "undefined", string cityName = "undefined", string stateOrRegion = "undefined", string zipCode = "undefined", Country country = null, string name = "undefined", string description = "undefined", double length = -1, double width = -1, double depth = -1, bool waterSalty = false) : base(streetName, houseNumber, cityName, stateOrRegion, zipCode, country)
+    public DivingSite(string name = "undefined", string description = "undefined", double length = -1, double width = -1, double depth = -1, bool waterSalty = false, Address address = null)
     {
         SetName(name);
         SetDescription(description);
@@ -69,6 +70,10 @@ class DivingSite : Address
     public bool GetWaterSalty()
     {
         return waterSalty;
+    }
+    public override string ToString()
+    {
+        return $"{name}, {description}, {length}m x {width}m x {depth}m, Salty: {waterSalty}, {address}";
     }
 
 }
