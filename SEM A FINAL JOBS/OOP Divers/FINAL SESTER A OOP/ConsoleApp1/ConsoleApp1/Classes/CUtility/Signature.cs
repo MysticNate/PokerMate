@@ -9,4 +9,5 @@ class Signature
         this.signer = signer;
         signedAt = DateTimeOffset.Now.DateTime; // Automatically set timestamp
     }
+
 }

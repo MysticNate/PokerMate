@@ -20,9 +20,6 @@ class DivingInfo
     Signature[] signatureDivers;
     Signature signatureClub;
 
-    // Constructor \\
-
-
 
     // Constructor \\
     public DivingInfo(User diveInfoFiller, DateOnly diveDate = default, DivingClub divingClub = null, DivingSite divingSite = null, DiveRegulation diveRegulation = null, DiverInstructor headDiver = null, Diver[] divers = null, Dictionary<Item, int> itemsTaken = null, TimeOnly waterEnter = default, TimeOnly waterExit = default, double waterTemp = -1, double tideLevel = -1, Signature[] signatureDivers = null, Signature signatureClub = null)
@@ -88,7 +85,6 @@ class DivingInfo
     }
     public void SetWaterTemp(double waterTemp)
     {
-        Validator.GetValid01Double(waterTemp.ToString());
         this.waterTemp = waterTemp;
     }
     public void SetTideLevel(double tideLevel)
@@ -178,6 +174,28 @@ class DivingInfo
         return con1 && con2 && con3 && con4;
 
         // If we get a false result the secretaries should check why :)
+    }
+    public override string ToString()
+    {
+        string diversStr = string.Join(", ", divers.Select(d => d.GetFName() + " " + d.GetLName()));
+        string itemsStr = string.Join(", ", itemsTaken.Select(i => i.Key.GetName() + ": " + i.Value));
+        string signatureDiversStr = string.Join(", ", signatureDivers.Select(s => s.ToString()));
+
+        return $"Dive ID: {diveID}\n" +
+               $"Dive Info Filler: {diveInfoFiller.GetUserDiver()}\n" +
+               $"Dive Date: {diveDate}\n" +
+               $"Diving Club: {divingClub.GetName()}\n" +
+               $"Diving Site: {divingSite.GetName()}\n" +
+               $"Dive Regulation: {diveRegulation.GetName()}\n" +
+               $"Head Diver: {headDiver.GetFName()} {headDiver.GetLName()}\n" +
+               $"Divers: {diversStr}\n" +
+               $"Items Taken: {itemsStr}\n" +
+               $"Water Enter: {waterEnter}\n" +
+               $"Water Exit: {waterExit}\n" +
+               $"Water Temp: {waterTemp}\n" +
+               $"Tide Level: {tideLevel}\n" +
+               $"Signature Divers: {signatureDiversStr}\n" +
+               $"Signature Club: {signatureClub}";
     }
 
 }

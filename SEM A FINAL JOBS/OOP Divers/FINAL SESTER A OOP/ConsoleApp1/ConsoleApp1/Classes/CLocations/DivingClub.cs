@@ -13,7 +13,7 @@ class DivingClub
     DivingSite divingSite;
     bool hasWebsite;
     string siteLink;
-    Dictionary<Item, int> items; // Array of items that can be borrowed
+    Dictionary<Item, int> items = new Dictionary<Item, int>(); // Array of items that can be borrowed (initialized in the properties)
     DivingInfo[] divingLogs; // Array of the diving logs of the club
 
     // Constructor \\
@@ -96,6 +96,7 @@ class DivingClub
     }
     public void SetDivingLogs(DivingInfo[] divingLogs)
     {
+        if (divingLogs == null) divingLogs = new DivingInfo[0];
         this.divingLogs = divingLogs;
     }
 

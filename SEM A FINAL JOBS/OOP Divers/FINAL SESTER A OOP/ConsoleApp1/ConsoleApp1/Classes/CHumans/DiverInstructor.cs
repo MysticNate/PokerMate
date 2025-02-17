@@ -53,4 +53,17 @@ class DiverInstructor : Diver
         return workingClubs;
     }
 
+    // Other \\
+    public override string ToString()
+    {
+        string clubsToString = "\n";
+        DivingClub[] clubsWorkedOrWorking = GetAllClubsWorked();
+        foreach (var c in clubsWorkedOrWorking)
+        {
+            clubsToString += c;
+            clubsToString += "\n";
+        }
+        return base.ToString() + $"\nI've worked/working at {clubsToString}";
+    }
+
 }

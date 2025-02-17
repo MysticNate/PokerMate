@@ -405,8 +405,7 @@ class Printer
         Console.Write(" ║\n");
         Console.Write("╚════════════════════════════════╝\n");
         Color.ResetColor();
-        // TODO: ENABLE ME
-        // Console.ReadKey();
+        Console.ReadKey();
     }
     public static void PrintAreYouSure()
     {
@@ -494,6 +493,7 @@ class Printer
         Console.Write("\n\n0. ");
         Color.DarkRed();
         Console.Write("Log out!");
+        Color.ResetColor();
     }
 
     public static void PrintMainMenuChangeProfile()

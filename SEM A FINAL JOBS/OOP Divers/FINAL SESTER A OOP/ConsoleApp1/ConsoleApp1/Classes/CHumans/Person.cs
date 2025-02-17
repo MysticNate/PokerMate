@@ -20,4 +20,10 @@ class Person : Human, ISigner
             signature = new Signature(this);
         return signature;
     }
+
+    // Other \\
+    public override string ToString()
+    {
+        return $"Hello I'm {fName} {lName} my ID: {id} I was born in {dateOfBirth}";
+    }
 }

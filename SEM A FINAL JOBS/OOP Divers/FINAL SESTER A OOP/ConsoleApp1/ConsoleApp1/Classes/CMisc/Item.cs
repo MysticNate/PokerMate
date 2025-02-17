@@ -70,4 +70,10 @@ class Item
     {
         return type;
     }
+
+    // Other \\
+    public override string ToString()
+    {
+        return $"Item: {GetName()}";
+    }
 }

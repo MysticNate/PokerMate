@@ -18,6 +18,7 @@ class DivingSite
         SetWidth(width);
         SetDepth(depth);
         SetWaterSalty(waterSalty);
+        SetAddress(address);
     }
 
     // Setters \\
@@ -45,6 +46,10 @@ class DivingSite
     {
         this.waterSalty = waterSalty;
     }
+    public void SetAddress(Address address)
+    {
+        this.address = address;
+    }
 
     // Getters \\
     public string GetName()
@@ -71,9 +76,14 @@ class DivingSite
     {
         return waterSalty;
     }
-    public override string ToString()
+    public Address GetAddress()
     {
-        return $"{name}, {description}, {length}m x {width}m x {depth}m, Salty: {waterSalty}, {address}";
+        return address;
     }
 
+    // Override ToString method
+    public override string ToString()
+    {
+        return $"Name: {name}, Description: {description}, Length: {length}m, Width: {width}m, Depth: {depth}m, Salty: {waterSalty}, Address: {address}";
+    }
 }

@@ -156,35 +156,46 @@ class Helper
     public static void StartDive(DiverInstructor instructor, User active)
     {
         // Step 1: Choose from the clubs diver works at
+        Color.Blue();
         Console.WriteLine("Choose a club you work at:");
         var workingClubs = instructor.GetCurrentWorkingClubs();
+        Color.Green();
         for (int i = 0; i < workingClubs.Length; i++)
         {
             Console.WriteLine($"{i + 1}. {workingClubs[i].GetName()}");
         }
+        Color.ResetColor();
         int clubChoice = Validator.GetProperInt(Console.ReadLine()) - 1;
         if (clubChoice < 0 || clubChoice >= workingClubs.Length)
         {
+            Color.Red();
             Console.WriteLine("Invalid choice. Please try again.");
+            Color.ResetColor();
             return;
         }
         DivingClub chosenClub = workingClubs[clubChoice];
 
         // Step 2: Present the DiveSite.ToString() that the dive will take place in
+        Color.Blue();
         Console.WriteLine("Dive will take place at:");
+        Color.Green();
         Console.WriteLine(chosenClub.GetDivingSite().ToString());
 
         // Step 3: Choose people to go with to the dive (that are in the DB)
-        List<Diver> divers = new List<Diver>();
+        List<Diver> divers = new List<Diver> { instructor }; // Add the instructor by default
+        Color.Blue();
         Console.WriteLine("Choose divers to go with (enter IDs, separated by commas):");
-        var savedDivers = DB.GetSavedPerson().OfType<Diver>().ToArray();
+        Color.Green();
+        var savedDivers = DB.GetSavedPerson().OfType<Diver>().Where(d => d.GetId() != instructor.GetId()).ToArray(); // Exclude the instructor
         for (int i = 0; i < savedDivers.Length; i++)
         {
             Console.WriteLine($"{savedDivers[i].GetId()}: {savedDivers[i].GetFName()} {savedDivers[i].GetLName()}");
         }
+        Color.ResetColor();
         string[] diverIds = Console.ReadLine().Split(',');
         foreach (var id in diverIds)
         {
+            // First or Default get the ID of the driver that is saved in the DB
             var diver = savedDivers.FirstOrDefault(d => d.GetId() == id.Trim());
             if (diver != null)
             {
@@ -195,7 +206,9 @@ class Helper
         // Check if there are at least 2 divers
         if (divers.Count < 2)
         {
+            Color.Red();
             Console.WriteLine("Error: There must be at least 2 divers to start a dive.");
+            Color.ResetColor();
             return;
         }
 
@@ -203,24 +216,18 @@ class Helper
         Dictionary<Diver, Dictionary<Item, int>> diverGear = new Dictionary<Diver, Dictionary<Item, int>>();
         foreach (var diver in divers)
         {
-            Console.WriteLine($"Choose gear for {diver.GetFName()} {diver.GetLName()}:");
-            Dictionary<Item, int> gear = new Dictionary<Item, int>();
-            foreach (var item in chosenClub.GetItems())
-            {
-                Console.WriteLine($"{item.Key.GetId()}: {item.Key.GetName()} ({item.Value} available)");
-                Console.Write($"How many {item.Key.GetName()} to take: ");
-                int quantity = Validator.GetProperInt(Console.ReadLine());
-                if (quantity > 0 && quantity <= item.Value)
-                {
-                    gear[item.Key] = quantity;
-                }
-            }
-            diverGear[diver] = gear;
+            diverGear[diver] = ChooseGearForDiver(diver, chosenClub);
         }
 
         // Step 5: Loading...
+        Color.Black();
         Console.WriteLine("Loading...");
-        System.Threading.Thread.Sleep(2000); // Simulate loading
+        Thread.Sleep(2000); // Simulate loading
+        Color.Blue();
+        Console.WriteLine("Press any key to complete dive");
+        Console.ReadKey();
+        Color.Green();
+        Console.WriteLine("Dive completed!");
 
         // Step 6: After the dive, all divers sign
         List<Signature> diverSignatures = new List<Signature>();
@@ -237,6 +244,22 @@ class Helper
         var clubSignature = chosenClub.GetContactPerson().Sign();
 
         // Create DivingInfo and add to club logs
+        Dictionary<Item, int> combinedItems = new Dictionary<Item, int>();
+        foreach (var gear in diverGear.Values)
+        {
+            foreach (var item in gear)
+            {
+                if (combinedItems.ContainsKey(item.Key))
+                {
+                    combinedItems[item.Key] += item.Value;
+                }
+                else
+                {
+                    combinedItems[item.Key] = item.Value;
+                }
+            }
+        }
+
         DivingInfo diveInfo = new DivingInfo(
             diveInfoFiller: active,
             diveDate: DateOnly.FromDateTime(DateTime.Now),
@@ -245,18 +268,60 @@ class Helper
             diveRegulation: chosenClub.GetAddress().GetCountry().GetDivingRegulations(),
             headDiver: instructor,
             divers: divers.ToArray(),
-            itemsTaken: diverGear.SelectMany(d => d.Value).ToDictionary(i => i.Key, i => i.Value),
+            itemsTaken: combinedItems,
             waterEnter: TimeOnly.FromDateTime(DateTime.Now),
-            waterExit: TimeOnly.FromDateTime(DateTime.Now.AddHours(1)), // Assuming 1 hour dive
-            waterTemp: 25.0, // Assuming water temperature
-            tideLevel: 1.0, // Assuming tide level
+            // The following data will be received before hand by automated devices / system
+            waterExit: TimeOnly.FromDateTime(DateTime.Now.AddHours(2)), // Assuming a 2 hour dive
+            waterTemp: 25.0, // Assuming water temperature measured at the time
+            tideLevel: 0.9, // Assuming tide level measured at the time
             signatureDivers: diverSignatures.ToArray(),
             signatureClub: clubSignature
         );
 
         chosenClub.SetDivingLogs(chosenClub.GetDivingLogs().Append(diveInfo).ToArray());
 
+        Color.Green();
         Console.WriteLine("Dive completed successfully!");
+        Color.ResetColor();
+    }
+
+    private static Dictionary<Item, int> ChooseGearForDiver(Diver diver, DivingClub chosenClub)
+    {
+        Dictionary<Item, int> gear = new Dictionary<Item, int>();
+        Color.Blue();
+        Console.WriteLine($"Choose gear for {diver.GetFName()} {diver.GetLName()}:");
+        foreach (var item in chosenClub.GetItems().ToList()) // Use ToList() to avoid modifying the collection while iterating
+        {
+            bool validInput = false;
+            while (!validInput)
+            {
+                Color.Green();
+                Console.WriteLine($"{item.Key.GetId()}: {item.Key.GetName()} ({item.Value} available)");
+                Color.Blue();
+                Console.Write($"How many {item.Key.GetName()} to take: ");
+                Color.ResetColor();
+                int quantity = Validator.GetProperInt(Console.ReadLine());
+                if (quantity >= 0 && quantity <= item.Value)
+                {
+                    gear[item.Key] = quantity;
+                    chosenClub.GetItems()[item.Key] -= quantity; // Update the available quantity
+                    validInput = true;
+                }
+                else if (quantity > item.Value)
+                {
+                    Color.Red();
+                    Console.WriteLine($"Error: Only {item.Value} {item.Key.GetName()} available.");
+                    Color.ResetColor();
+                }
+                else
+                {
+                    Color.Red();
+                    Console.WriteLine("Error: Invalid quantity. Please enter a positive number.");
+                    Color.ResetColor();
+                }
+            }
+        }
+        return gear;
     }
 
     public static void UpdateUserDetails(User user)

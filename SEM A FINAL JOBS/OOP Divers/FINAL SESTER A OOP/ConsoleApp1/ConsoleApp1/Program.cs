@@ -45,7 +45,7 @@ club3.SetItems(new Dictionary<Item, int> { { diveComputer, 6 }, { mask, 12 }, { 
 DiveRankGiven yourRank = new DiveRankGiven(instructor, club1);
 DiverInstructor adminDiver = new DiverInstructor("319250973", "James", "Bond", 1, 1, 1999, 123, rankCurrent: yourRank);
 WorkStamp workStamp = new WorkStamp(endDate: DateOnly.MaxValue); // Just default for demonstrating purposes
-adminDiver.AddWorkingClub(club1,workStamp);
+adminDiver.AddWorkingClub(club1, workStamp);
 User admin = new User(adminDiver, "justblood99@gmail.com", "asdfghjk");
 
 // Pre made divers (for test dives)
@@ -64,10 +64,10 @@ Diver diver5 = new Diver("327252177", "Michel", "Davis", 25, 7, 1975, 50);
 bool loggedIn = false;
 while (true)
 {
-    // Console.Clear();
+    Console.Clear();
     Printer.PrintMainMenu();
-    char key = '2'; // Console.ReadKey(true).KeyChar; // Read key without displaying it in console 
-    // Console.Clear();
+    char key = Console.ReadKey(true).KeyChar; // Console.ReadKey(true).KeyChar; // Read key without displaying it in console 
+    Console.Clear();
     if (key == '1')
     {
         // Register
@@ -104,9 +104,9 @@ while (true)
             Diver you = new Diver(id, fName, lName, day, month, year, divesDone);
             Helper.AssignRank(you, DB.GetSavedDivingClub(), divesDone);
             // Create the user
-            User youUser = new User(you,email,password);
+            User youUser = new User(you, email, password);
         }
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("Register successful!");
         Printer.PrintPressAnyToContinue();
     }
@@ -128,24 +128,25 @@ while (true)
             // Try and find a user in the DB class
             active = Helper.IsUserOk(email, pass);
             if (active != null) loggedIn = true;
-            if (loggedIn) 
+            if (loggedIn)
             {
                 Color.Green();
                 Console.WriteLine("Login Successful!");
             }
-            else 
+            else
             {
                 Color.Red();
                 Console.WriteLine("Login Failed!");
             }
             Printer.PrintPressAnyToContinue();
-            // Console.Clear();
+            Console.Clear();
         }
         while (loggedIn)
         {
+            Console.Clear();
             Printer.PrintMainMenuLogged(active.GetUserDiver().GetFName(), active.GetUserDiver().GetLName());
-            key = '2'; // Console.ReadKey(true).KeyChar;
-            // Console.Clear();
+            key = Console.ReadKey(true).KeyChar; // Console.ReadKey(true).KeyChar;
+            Console.Clear();
             switch (key)
             {
                 case '1':
@@ -178,21 +179,19 @@ while (true)
                     active = null;
                     Console.WriteLine("Current user: 'null'");
                     break;
-
             }
             Printer.PrintPressAnyToContinue();
         }
-
     }
     // Exit
     else if (key == '0')
     {
-        // Console.Clear();
+        Console.Clear();
         Printer.PrintAreYouSure();
         bool asking = Helper.GetYesOrNo(Console.ReadLine());
         if (asking)
         {
-            // Console.Clear();
+            Console.Clear();
             Printer.PrintGoodByeMessage();
             return;
         }
@@ -200,5 +199,5 @@ while (true)
     }
     // Else -> wait for proper key press (Do nothing)
 
-    // Console.Clear();
+    Console.Clear();
 }

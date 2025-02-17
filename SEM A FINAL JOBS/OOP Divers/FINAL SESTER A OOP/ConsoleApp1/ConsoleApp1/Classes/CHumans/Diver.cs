@@ -88,6 +88,10 @@ class Diver : Person, IDiveable, IBorrow
 
 
     // Other \\
+    public override string ToString()
+    {
+        return base.ToString() + $"\nI've done {divesDone} dives, I'm currently diving: {currentlyDiving} My current rank is {rankCurrent.GetDiveRank().GetName()}";
+    }
     public void Dive()
     {
         currentlyDiving = true;
