@@ -51,7 +51,7 @@ User admin = new User(adminDiver, "justblood99@gmail.com", "asdfghjk");
 // Pre made divers (for test dives)
 Diver diver1 = new Diver("321196578", "James", "Johnson", 5, 5, 1995, 10);
 Diver diver2 = new Diver("321797086", "Games", "Smith", 10, 10, 1990, 20);
-Diver diver3 = new Diver("335066874", "Lames", "Brown", 15, 8, 1985, 30);
+Diver diver3 = new Diver( "335066874", "Lames", "Brown", 15, 8, 1985, 30);
 Diver diver4 = new Diver("337396691", "Chris", "Williams", 20, 12, 1980, 40);
 Diver diver5 = new Diver("327252177", "Michel", "Davis", 25, 7, 1975, 50);
 
